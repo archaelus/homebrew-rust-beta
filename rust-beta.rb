@@ -17,7 +17,7 @@ class RustBeta < Formula
   end
 
   homepage 'http://www.rust-lang.org/'
-  url "https://static.rust-lang.org/dist/rust-nightly-x86_64-apple-darwin.tar.gz"
+  url latest_rust_url()
   sha256 sha256_checksum
   head 'https://github.com/rust-lang/rust.git'
   version "#{latest_rust_revision}"
