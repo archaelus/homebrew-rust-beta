@@ -2,13 +2,13 @@ require 'formula'
 require 'date'
 
 class RustNightly < Formula
-  def self.latest_rust_nightly_revision
-    @latest_rust_nightly_revision ||= begin
-      Date.parse(`curl --silent --HEAD 'https://static.rust-lang.org/dist/rust-nightly-x86_64-apple-darwin.tar.gz' | grep 'Last-Modified:'`.split(' ', 2).last.strip).to_s
+  def self.latest_rust_nightly_revision(channel="beta")
+    @latest_channel_revision ||= begin
+      `curl --silent 'https://static.rust-lang.org/dist/channel-rust-#{channel}' | grep 'x86_64-apple-darwin.tar.gz'`.last.strip
     end
   end
 
-  def self.sha256_checksum
+  def self.sha256_checksum(channel="beta")
     `curl --silent 'https://static.rust-lang.org/dist/rust-nightly-x86_64-apple-darwin.tar.gz.sha256'`.split.first
   end
 
@@ -18,7 +18,9 @@ class RustNightly < Formula
   head 'https://github.com/rust-lang/rust.git'
   version "1.0-#{latest_rust_nightly_revision}"
 
-  conflicts_with 'rust', :because => 'multiple version'
+  conflicts_with 'rust', :because => 'same'
+  conflicts_with 'rust-nightly', :because => 'same'
+  
 
   def install
     lib_path_update("rustc/bin/rustc")
