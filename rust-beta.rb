@@ -1,24 +1,30 @@
 require 'formula'
 require 'date'
 
-class RustNightly < Formula
-  def self.latest_rust_nightly_revision
-    @latest_rust_nightly_revision ||= begin
-      Date.parse(`curl --silent --HEAD 'https://static.rust-lang.org/dist/rust-nightly-x86_64-apple-darwin.tar.gz' | grep 'Last-Modified:'`.split(' ', 2).last.strip).to_s
+class RustBeta < Formula
+  def self.latest_rust_revision(channel="beta")
+    @latest_channel_revision ||= begin
+      `curl --silent 'https://static.rust-lang.org/dist/channel-rust-#{channel}'`.match(/rust-(?<vsn>.*)-x86_64-apple-darwin.tar.gz/)[:vsn]
     end
   end
 
-  def self.sha256_checksum
-    `curl --silent 'https://static.rust-lang.org/dist/rust-nightly-x86_64-apple-darwin.tar.gz.sha256'`.split.first
+  def self.latest_rust_url(channel="beta")
+    "https://static.rust-lang.org/dist/rust-#{latest_rust_revision(channel)}-x86_64-apple-darwin.tar.gz"
+  end
+
+  def self.sha256_checksum(channel="beta")
+    `curl --silent '#{latest_rust_url(channel)}.sha256'`.split.first
   end
 
   homepage 'http://www.rust-lang.org/'
-  url "https://static.rust-lang.org/dist/rust-nightly-x86_64-apple-darwin.tar.gz"
+  url latest_rust_url()
   sha256 sha256_checksum
   head 'https://github.com/rust-lang/rust.git'
-  version "1.0-#{latest_rust_nightly_revision}"
+  version "#{latest_rust_revision}"
 
-  conflicts_with 'rust', :because => 'multiple version'
+  conflicts_with 'rust', :because => 'same'
+  conflicts_with 'rust-nightly', :because => 'same'
+  
 
   def install
     lib_path_update("rustc/bin/rustc")
