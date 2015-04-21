@@ -8,6 +8,10 @@ class RustBeta < Formula
     end
   end
 
+  def self.latest_rust_url(channel="beta")
+    "https://static.rust-lang.org/dist/rust-#{latest_rust_revision(channel)}-x86_64-apple-darwin.tar.gz"
+  end
+
   def self.sha256_checksum(channel="beta")
     `curl --silent 'https://static.rust-lang.org/dist/rust-nightly-x86_64-apple-darwin.tar.gz.sha256'`.split.first
   end
