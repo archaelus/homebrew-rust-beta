@@ -1,18 +1,18 @@
 Homebrew-Rust
 =============
 
-A homebrew tap for rust-lang nightly builds.
+A homebrew tap for rust-lang channel(beta) builds.
 
 ## Installation
 
 Run the following in your command-line:
 
 ```sh
-brew tap cheba/rust-nightly
+brew tap archaelus/rust-beta
 ```
 
 Build and install rust & cargo nightly:
 
 ```sh
-brew install rust-nightly
+brew install rust-beta
 ```
