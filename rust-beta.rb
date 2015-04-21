@@ -13,7 +13,7 @@ class RustBeta < Formula
   end
 
   def self.sha256_checksum(channel="beta")
-    `curl --silent 'https://static.rust-lang.org/dist/rust-nightly-x86_64-apple-darwin.tar.gz.sha256'`.split.first
+    `curl --silent '#{latest_rust_url(channel)}.sha256'`.split.first
   end
 
   homepage 'http://www.rust-lang.org/'
