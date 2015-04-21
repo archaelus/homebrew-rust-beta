@@ -1,10 +1,10 @@
 require 'formula'
 require 'date'
 
-  def self.latest_rust_nightly_revision(channel="beta")
 class RustBeta < Formula
+  def self.latest_rust_revision(channel="beta")
     @latest_channel_revision ||= begin
-      `curl --silent 'https://static.rust-lang.org/dist/channel-rust-#{channel}' | grep 'x86_64-apple-darwin.tar.gz'`.last.strip
+      `curl --silent 'https://static.rust-lang.org/dist/channel-rust-#{channel}'`.match(/rust-(?<vsn>.*)-x86_64-apple-darwin.tar.gz/)[:vsn]
     end
   end
 
@@ -20,7 +20,7 @@ class RustBeta < Formula
   url "https://static.rust-lang.org/dist/rust-nightly-x86_64-apple-darwin.tar.gz"
   sha256 sha256_checksum
   head 'https://github.com/rust-lang/rust.git'
-  version "1.0-#{latest_rust_nightly_revision}"
+  version "#{latest_rust_revision}"
 
   conflicts_with 'rust', :because => 'same'
   conflicts_with 'rust-nightly', :because => 'same'
