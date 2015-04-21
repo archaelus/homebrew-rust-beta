@@ -1,8 +1,8 @@
 require 'formula'
 require 'date'
 
-class RustNightly < Formula
   def self.latest_rust_nightly_revision(channel="beta")
+class RustBeta < Formula
     @latest_channel_revision ||= begin
       `curl --silent 'https://static.rust-lang.org/dist/channel-rust-#{channel}' | grep 'x86_64-apple-darwin.tar.gz'`.last.strip
     end
