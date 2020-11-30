@@ -24,7 +24,6 @@ class RustBeta < Formula
 
   conflicts_with 'rust', :because => 'same'
   conflicts_with 'rust-nightly', :because => 'same'
-  
 
   def install
     lib_path_update("rustc/bin/rustc")
