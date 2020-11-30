@@ -2,23 +2,25 @@ require 'formula'
 require 'date'
 
 class RustBeta < Formula
-  def self.latest_rust_revision(channel="beta")
+  arch = Hardware::CPU.arch === :arm64 ? :aarch64 : Hardware::CPU.arch
+
+  def self.latest_rust_revision(channel="beta",arch="x86_64")
     @latest_channel_revision ||= begin
-      `curl --silent 'https://static.rust-lang.org/dist/channel-rust-#{channel}'`.match(/rust-(?<vsn>.*)-x86_64-apple-darwin.tar.gz/)[:vsn]
+      `curl --silent 'https://static.rust-lang.org/dist/channel-rust-#{channel}'`.match(/rust-(?<vsn>.*)-#{arch}-apple-darwin.tar.gz/)[:vsn]
     end
   end
 
-  def self.latest_rust_url(channel="beta")
-    "https://static.rust-lang.org/dist/rust-#{latest_rust_revision(channel)}-x86_64-apple-darwin.tar.gz"
+  def self.latest_rust_url(channel="beta",arch="x86_64")
+    "https://static.rust-lang.org/dist/rust-#{latest_rust_revision(channel)}-#{arch}-apple-darwin.tar.gz"
   end
 
-  def self.sha256_checksum(channel="beta")
-    `curl --silent '#{latest_rust_url(channel)}.sha256'`.split.first
+  def self.sha256_checksum(channel="beta",arch="x86_64")
+    `curl --silent '#{latest_rust_url(channel, arch)}.sha256'`.split.first
   end
 
   homepage 'http://www.rust-lang.org/'
-  url latest_rust_url()
-  sha256 sha256_checksum
+  url latest_rust_url("beta", arch)
+  sha256 sha256_checksum("beta", arch)
   head 'https://github.com/rust-lang/rust.git'
   version "#{latest_rust_revision}"
 
