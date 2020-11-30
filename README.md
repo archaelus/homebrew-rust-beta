@@ -5,13 +5,13 @@ A homebrew tap for rust-lang channel(beta) builds.
 
 ## Installation
 
-Run the following in your command-line:
+Tap this repo in Homebrew:
 
 ```sh
-brew tap archaelus/rust-beta
+brew tap unitof/rust-beta
 ```
 
-Build and install rust & cargo nightly:
+Build and install rust & cargo beta:
 
 ```sh
 brew install rust-beta
